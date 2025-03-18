@@ -20,7 +20,7 @@ module tb ();
     wire dstValid;
     reg dstReady;
 
-    D2DAdapter dut (
+    tt_um_hoorifyyyy_D2DAdapter dut (
         .clock(clock),
         .reset(reset),
         .srcData(srcData),

@@ -35,7 +35,7 @@ COMPILE_ARGS 		+= -I$(SRC_DIR)
 
 # Include the testbench sources:
 VERILOG_SOURCES += $(PWD)/../test/tb_D2DAdapter.v
-TOPLEVEL = D2DAdapter  # Set to your top-level module name
+TOPLEVEL = tt_um_hoorifyyyy_D2DAdapter  # Set to your top-level module name
 
 # MODULE is the basename of the Python test file
 MODULE = test_D2DAdapter  # Change this to match your Python test file name
