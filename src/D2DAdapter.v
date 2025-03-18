@@ -3622,7 +3622,7 @@ end // initial
 `endif
 `endif // SYNTHESIS
 endmodule
-module D2DAdapter(
+module tt_um_hoorifyyyy_D2DAdapter(
   input          clock,
   input          reset,
   output         io_fdi_lpData_ready, // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 30:16]
