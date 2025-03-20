@@ -22,7 +22,7 @@ project:
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
 pinout:
    # Inputs
-  ui[0]: "clock"
+  ui[0]: "clk"
   ui[1]: "reset"
   ui[2]: "io_fdi_lpData_valid"
   ui[3]: "io_fdi_lpData_irdy"

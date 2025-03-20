@@ -9,8 +9,8 @@ module tb ();
         #1;
     end
 
-    reg clock;
-    reg reset;
+    reg clk;
+    reg rst_n;
     reg srcValid;
     reg [31:0] srcData;
     reg [15:0] srcAddr;
@@ -21,8 +21,8 @@ module tb ();
     reg dstReady;
 
     tt_um_hoorifyyyy_D2DAdapter dut (
-        .clock(clock),
-        .reset(reset),
+        .clk(clk),
+        .rst_n(rst_n),
         .srcData(srcData),
         .srcAddr(srcAddr),
         .srcValid(srcValid),
@@ -33,32 +33,26 @@ module tb ();
         .dstReady(dstReady)
     );
 
-  
     initial begin
-        clock = 0;
-        forever #5 clock = ~clock; 
+        clk = 0;
+        forever #5 clk = ~clk; 
     end
 
- 
     initial begin
-      
-        reset = 1;
+        rst_n = 1;
         srcValid = 0;
         srcData = 0;
         srcAddr = 0;
         dstReady = 0;
 
-      
-        #15 reset = 0;
-        #10 reset = 1;
+        #15 rst_n = 0;
+        #10 rst_n = 1;
 
-     
         srcData = 32'hA5A5A5A5;
         srcAddr = 16'h0001;
         srcValid = 1;
 
         wait(srcReady);
-        
         
         #10 dstReady = 1;
 

@@ -1,6 +1,6 @@
 module LinkDisabledSubmodule(
-  input        clock,
-  input        reset,
+  input        clk,
+  input        rst_n,
   input  [3:0] io_fdi_lp_state_req, // @[\\src\\main\\scala\\d2dadapter\\LinkDisabledSubmodule.scala 26:14]
   input  [3:0] io_fdi_lp_state_req_prev, // @[\\src\\main\\scala\\d2dadapter\\LinkDisabledSubmodule.scala 26:14]
   input  [3:0] io_link_state, // @[\\src\\main\\scala\\d2dadapter\\LinkDisabledSubmodule.scala 26:14]
@@ -50,28 +50,28 @@ module LinkDisabledSubmodule(
   wire  _GEN_13 = _T_6 & _GEN_5; // @[\\src\\main\\scala\\d2dadapter\\LinkDisabledSubmodule.scala 39:5 98:32]
   assign io_disabled_entry = _T_6 & (disabled_sbmsg_ext_rsp_reg | disabled_sbmsg_rsp_rcv_reg); // @[\\src\\main\\scala\\d2dadapter\\LinkDisabledSubmodule.scala 101:23 39:5 40:23]
   assign io_disabled_sb_snd = _T_6 ? _GEN_7 : 6'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkDisabledSubmodule.scala 102:24 39:5]
-  always @(posedge clock) begin
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\LinkDisabledSubmodule.scala 28:37]
+  always @(posedge clk) begin
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\LinkDisabledSubmodule.scala 28:37]
       disabled_fdi_req_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkDisabledSubmodule.scala 28:37]
     end else begin
       disabled_fdi_req_reg <= _GEN_9;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\LinkDisabledSubmodule.scala 29:43]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\LinkDisabledSubmodule.scala 29:43]
       disabled_sbmsg_req_rcv_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkDisabledSubmodule.scala 29:43]
     end else begin
       disabled_sbmsg_req_rcv_reg <= _GEN_12;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\LinkDisabledSubmodule.scala 30:43]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\LinkDisabledSubmodule.scala 30:43]
       disabled_sbmsg_rsp_rcv_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkDisabledSubmodule.scala 30:43]
     end else begin
       disabled_sbmsg_rsp_rcv_reg <= _GEN_13;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\LinkDisabledSubmodule.scala 31:43]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\LinkDisabledSubmodule.scala 31:43]
       disabled_sbmsg_ext_rsp_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkDisabledSubmodule.scala 31:43]
     end else begin
       disabled_sbmsg_ext_rsp_reg <= _GEN_11;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\LinkDisabledSubmodule.scala 32:43]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\LinkDisabledSubmodule.scala 32:43]
       disabled_sbmsg_ext_req_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkDisabledSubmodule.scala 32:43]
     end else begin
       disabled_sbmsg_ext_req_reg <= _GEN_10;
@@ -132,15 +132,15 @@ end // initial
 `endif // SYNTHESIS
 endmodule
 module LinkResetSubmodule(
-  input        clock,
-  input        reset,
+  input        clk,
+  input        rst_n,
   input  [3:0] io_fdi_lp_state_req, // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 25:14]
   input  [3:0] io_fdi_lp_state_req_prev, // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 25:14]
   input  [3:0] io_link_state, // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 25:14]
-  output       io_linkreset_entry, // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 25:14]
-  output [5:0] io_linkreset_sb_snd, // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 25:14]
-  input  [5:0] io_linkreset_sb_rcv, // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 25:14]
-  input        io_linkreset_sb_rdy // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 25:14]
+  output       io_linkrst_n_entry, // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 25:14]
+  output [5:0] io_linkrst_n_sb_snd, // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 25:14]
+  input  [5:0] io_linkrst_n_sb_rcv, // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 25:14]
+  input        io_linkrst_n_sb_rdy // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 25:14]
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
@@ -149,11 +149,11 @@ module LinkResetSubmodule(
   reg [31:0] _RAND_3;
   reg [31:0] _RAND_4;
 `endif // RANDOMIZE_REG_INIT
-  reg  linkreset_fdi_req_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 27:38]
-  reg  linkreset_sbmsg_req_rcv_flag; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 28:45]
-  reg  linkreset_sbmsg_rsp_rcv_flag; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 29:45]
-  reg  linkreset_sbmsg_ext_rsp_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 30:44]
-  reg  linkreset_sbmsg_ext_req_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 31:44]
+  reg  linkrst_n_fdi_req_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 27:38]
+  reg  linkrst_n_sbmsg_req_rcv_flag; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 28:45]
+  reg  linkrst_n_sbmsg_rsp_rcv_flag; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 29:45]
+  reg  linkrst_n_sbmsg_ext_rsp_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 30:44]
+  reg  linkrst_n_sbmsg_ext_req_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 31:44]
   wire  _T = io_link_state == 4'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 34:21]
   wire  _T_1 = io_link_state == 4'h1; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 35:21]
   wire  _T_2 = io_link_state == 4'h0 | _T_1; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 34:40]
@@ -165,48 +165,48 @@ module LinkResetSubmodule(
   wire  _T_9 = _T_7 & _T_8; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 44:55]
   wire  _T_11 = io_link_state != 4'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 50:23]
   wire  _T_12 = _T_6 & _T_11; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 49:53]
-  wire  _GEN_0 = _T_12 | linkreset_fdi_req_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 51:7 52:29 54:29]
+  wire  _GEN_0 = _T_12 | linkrst_n_fdi_req_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 51:7 52:29 54:29]
   wire  _GEN_1 = _T_9 | _GEN_0; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 46:7 47:29]
-  wire  _GEN_2 = io_linkreset_sb_snd == 6'h9 & io_linkreset_sb_rdy | linkreset_sbmsg_ext_req_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 57:87 58:35 60:35]
-  wire  _GEN_3 = io_linkreset_sb_snd == 6'h19 & io_linkreset_sb_rdy | linkreset_sbmsg_ext_rsp_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 63:87 64:35 66:35]
-  wire  _GEN_4 = io_linkreset_sb_rcv == 6'h9 | linkreset_sbmsg_req_rcv_flag; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 70:65 71:36 73:36]
-  wire  _GEN_5 = io_linkreset_sb_rcv == 6'h19 | linkreset_sbmsg_rsp_rcv_flag; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 78:65 79:36 81:36]
-  wire  _T_21 = ~linkreset_sbmsg_ext_req_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 87:10]
-  wire  _T_22 = linkreset_fdi_req_reg & ~linkreset_sbmsg_req_rcv_flag & _T_21; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 86:65]
-  wire [5:0] _GEN_6 = linkreset_sbmsg_req_rcv_flag & ~linkreset_sbmsg_ext_rsp_reg ? 6'h19 : 6'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 89:78 90:27 92:27]
+  wire  _GEN_2 = io_linkrst_n_sb_snd == 6'h9 & io_linkrst_n_sb_rdy | linkrst_n_sbmsg_ext_req_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 57:87 58:35 60:35]
+  wire  _GEN_3 = io_linkrst_n_sb_snd == 6'h19 & io_linkrst_n_sb_rdy | linkrst_n_sbmsg_ext_rsp_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 63:87 64:35 66:35]
+  wire  _GEN_4 = io_linkrst_n_sb_rcv == 6'h9 | linkrst_n_sbmsg_req_rcv_flag; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 70:65 71:36 73:36]
+  wire  _GEN_5 = io_linkrst_n_sb_rcv == 6'h19 | linkrst_n_sbmsg_rsp_rcv_flag; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 78:65 79:36 81:36]
+  wire  _T_21 = ~linkrst_n_sbmsg_ext_req_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 87:10]
+  wire  _T_22 = linkrst_n_fdi_req_reg & ~linkrst_n_sbmsg_req_rcv_flag & _T_21; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 86:65]
+  wire [5:0] _GEN_6 = linkrst_n_sbmsg_req_rcv_flag & ~linkrst_n_sbmsg_ext_rsp_reg ? 6'h19 : 6'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 89:78 90:27 92:27]
   wire [5:0] _GEN_7 = _T_22 ? 6'h9 : _GEN_6; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 87:40 88:27]
   wire  _GEN_9 = _T_4 & _GEN_1; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 37:5 95:27]
   wire  _GEN_10 = _T_4 & _GEN_2; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 37:5 98:33]
   wire  _GEN_11 = _T_4 & _GEN_3; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 37:5 99:33]
   wire  _GEN_12 = _T_4 & _GEN_4; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 37:5 96:34]
   wire  _GEN_13 = _T_4 & _GEN_5; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 37:5 97:34]
-  assign io_linkreset_entry = _T_4 & (linkreset_sbmsg_ext_rsp_reg | linkreset_sbmsg_rsp_rcv_flag); // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 100:24 37:5 39:24]
-  assign io_linkreset_sb_snd = _T_4 ? _GEN_7 : 6'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 101:25 37:5]
-  always @(posedge clock) begin
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 27:38]
-      linkreset_fdi_req_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 27:38]
+  assign io_linkrst_n_entry = _T_4 & (linkrst_n_sbmsg_ext_rsp_reg | linkrst_n_sbmsg_rsp_rcv_flag); // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 100:24 37:5 39:24]
+  assign io_linkrst_n_sb_snd = _T_4 ? _GEN_7 : 6'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 101:25 37:5]
+  always @(posedge clk) begin
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 27:38]
+      linkrst_n_fdi_req_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 27:38]
     end else begin
-      linkreset_fdi_req_reg <= _GEN_9;
+      linkrst_n_fdi_req_reg <= _GEN_9;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 28:45]
-      linkreset_sbmsg_req_rcv_flag <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 28:45]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 28:45]
+      linkrst_n_sbmsg_req_rcv_flag <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 28:45]
     end else begin
-      linkreset_sbmsg_req_rcv_flag <= _GEN_12;
+      linkrst_n_sbmsg_req_rcv_flag <= _GEN_12;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 29:45]
-      linkreset_sbmsg_rsp_rcv_flag <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 29:45]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 29:45]
+      linkrst_n_sbmsg_rsp_rcv_flag <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 29:45]
     end else begin
-      linkreset_sbmsg_rsp_rcv_flag <= _GEN_13;
+      linkrst_n_sbmsg_rsp_rcv_flag <= _GEN_13;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 30:44]
-      linkreset_sbmsg_ext_rsp_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 30:44]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 30:44]
+      linkrst_n_sbmsg_ext_rsp_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 30:44]
     end else begin
-      linkreset_sbmsg_ext_rsp_reg <= _GEN_11;
+      linkrst_n_sbmsg_ext_rsp_reg <= _GEN_11;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 31:44]
-      linkreset_sbmsg_ext_req_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 31:44]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 31:44]
+      linkrst_n_sbmsg_ext_req_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkResetSubmodule.scala 31:44]
     end else begin
-      linkreset_sbmsg_ext_req_reg <= _GEN_10;
+      linkrst_n_sbmsg_ext_req_reg <= _GEN_10;
     end
   end
 // Register and memory initialization
@@ -246,15 +246,15 @@ initial begin
     `endif
 `ifdef RANDOMIZE_REG_INIT
   _RAND_0 = {1{`RANDOM}};
-  linkreset_fdi_req_reg = _RAND_0[0:0];
+  linkrst_n_fdi_req_reg = _RAND_0[0:0];
   _RAND_1 = {1{`RANDOM}};
-  linkreset_sbmsg_req_rcv_flag = _RAND_1[0:0];
+  linkrst_n_sbmsg_req_rcv_flag = _RAND_1[0:0];
   _RAND_2 = {1{`RANDOM}};
-  linkreset_sbmsg_rsp_rcv_flag = _RAND_2[0:0];
+  linkrst_n_sbmsg_rsp_rcv_flag = _RAND_2[0:0];
   _RAND_3 = {1{`RANDOM}};
-  linkreset_sbmsg_ext_rsp_reg = _RAND_3[0:0];
+  linkrst_n_sbmsg_ext_rsp_reg = _RAND_3[0:0];
   _RAND_4 = {1{`RANDOM}};
-  linkreset_sbmsg_ext_req_reg = _RAND_4[0:0];
+  linkrst_n_sbmsg_ext_req_reg = _RAND_4[0:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial
@@ -264,8 +264,8 @@ end // initial
 `endif // SYNTHESIS
 endmodule
 module LinkInitSubmodule(
-  input        clock,
-  input        reset,
+  input        clk,
+  input        rst_n,
   input  [3:0] io_fdi_lp_state_req, // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 39:16]
   input  [3:0] io_fdi_lp_state_req_prev, // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 39:16]
   input        io_fdi_lp_rxactive_sts, // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 39:16]
@@ -353,8 +353,8 @@ module LinkInitSubmodule(
   assign io_linkinit_rdi_lp_state_req = {{3'd0}, _GEN_68};
   assign io_active_entry = io_link_state == 4'h0 & _GEN_54; // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 200:23 64:44]
   assign io_linkinit_sb_snd = io_link_state == 4'h0 ? _GEN_57 : 6'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 204:26 64:44]
-  always @(posedge clock) begin
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 42:37]
+  always @(posedge clk) begin
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 42:37]
       linkinit_state_reg <= 3'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 42:37]
     end else if (io_link_state == 4'h0) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 64:44]
       if (3'h0 == linkinit_state_reg) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 78:34]
@@ -369,17 +369,17 @@ module LinkInitSubmodule(
     end else begin
       linkinit_state_reg <= 3'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 199:26]
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 45:44]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 45:44]
       param_exch_sbmsg_rcv_flag <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 45:44]
     end else begin
       param_exch_sbmsg_rcv_flag <= _GEN_71;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 46:44]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 46:44]
       param_exch_sbmsg_snt_flag <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 46:44]
     end else begin
       param_exch_sbmsg_snt_flag <= _GEN_72;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 49:44]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 49:44]
       active_sbmsg_req_rcv_flag <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 49:44]
     end else if (io_link_state == 4'h0) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 64:44]
       if (3'h0 == linkinit_state_reg) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 78:34]
@@ -390,7 +390,7 @@ module LinkInitSubmodule(
         active_sbmsg_req_rcv_flag <= _GEN_36;
       end
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 50:44]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 50:44]
       active_sbmsg_rsp_rcv_flag <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 50:44]
     end else if (io_link_state == 4'h0) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 64:44]
       if (3'h0 == linkinit_state_reg) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 78:34]
@@ -401,7 +401,7 @@ module LinkInitSubmodule(
         active_sbmsg_rsp_rcv_flag <= _GEN_35;
       end
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 51:43]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 51:43]
       active_sbmsg_ext_rsp_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 51:43]
     end else if (io_link_state == 4'h0) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 64:44]
       if (3'h0 == linkinit_state_reg) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 78:34]
@@ -412,7 +412,7 @@ module LinkInitSubmodule(
         active_sbmsg_ext_rsp_reg <= _GEN_37;
       end
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 52:43]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 52:43]
       active_sbmsg_ext_req_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 52:43]
     end else if (io_link_state == 4'h0) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 64:44]
       if (3'h0 == linkinit_state_reg) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 78:34]
@@ -423,7 +423,7 @@ module LinkInitSubmodule(
         active_sbmsg_ext_req_reg <= _GEN_38;
       end
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 54:43]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 54:43]
       transition_to_active_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 54:43]
     end else if (io_link_state == 4'h0) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 64:44]
       if (3'h0 == linkinit_state_reg) begin // @[\\src\\main\\scala\\d2dadapter\\LinkInitSubmodule.scala 78:34]
@@ -496,8 +496,8 @@ end // initial
 `endif // SYNTHESIS
 endmodule
 module ParityNegotiationSubmodule(
-  input        clock,
-  input        reset,
+  input        clk,
+  input        rst_n,
   input        io_start_negotiation, // @[\\src\\main\\scala\\d2dadapter\\ParityNegotiationSubmodule.scala 26:16]
   input  [5:0] io_parity_sb_rcv, // @[\\src\\main\\scala\\d2dadapter\\ParityNegotiationSubmodule.scala 26:16]
   output [5:0] io_parity_sb_snd, // @[\\src\\main\\scala\\d2dadapter\\ParityNegotiationSubmodule.scala 26:16]
@@ -531,23 +531,23 @@ module ParityNegotiationSubmodule(
   assign io_parity_sb_snd = io_start_negotiation ? _GEN_0 : 6'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityNegotiationSubmodule.scala 109:27 43:31]
   assign io_parity_rx_enable = parity_rx_enable_reg; // @[\\src\\main\\scala\\d2dadapter\\ParityNegotiationSubmodule.scala 39:25]
   assign io_parity_tx_enable = parity_tx_enable_reg; // @[\\src\\main\\scala\\d2dadapter\\ParityNegotiationSubmodule.scala 40:25]
-  always @(posedge clock) begin
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityNegotiationSubmodule.scala 28:42]
+  always @(posedge clk) begin
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityNegotiationSubmodule.scala 28:42]
       parity_rsp_snt_flag_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityNegotiationSubmodule.scala 28:42]
     end else begin
       parity_rsp_snt_flag_reg <= _GEN_19;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityNegotiationSubmodule.scala 30:42]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityNegotiationSubmodule.scala 30:42]
       parity_req_rcv_flag_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityNegotiationSubmodule.scala 30:42]
     end else begin
       parity_req_rcv_flag_reg <= _GEN_20;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityNegotiationSubmodule.scala 32:39]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityNegotiationSubmodule.scala 32:39]
       parity_rx_enable_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityNegotiationSubmodule.scala 32:39]
     end else if (io_start_negotiation) begin // @[\\src\\main\\scala\\d2dadapter\\ParityNegotiationSubmodule.scala 43:31]
       parity_rx_enable_reg <= _GEN_11;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityNegotiationSubmodule.scala 33:39]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityNegotiationSubmodule.scala 33:39]
       parity_tx_enable_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityNegotiationSubmodule.scala 33:39]
     end else if (io_start_negotiation) begin // @[\\src\\main\\scala\\d2dadapter\\ParityNegotiationSubmodule.scala 43:31]
       parity_tx_enable_reg <= _T_18;
@@ -606,8 +606,8 @@ end // initial
 `endif // SYNTHESIS
 endmodule
 module LinkManagementController(
-  input        clock,
-  input        reset,
+  input        clk,
+  input        rst_n,
   input  [3:0] io_fdi_lp_state_req, // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 49:16]
   input        io_fdi_lp_linkerror, // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 49:16]
   input        io_fdi_lp_rx_active_sts, // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 49:16]
@@ -635,8 +635,8 @@ module LinkManagementController(
   reg [31:0] _RAND_5;
   reg [31:0] _RAND_6;
 `endif // RANDOMIZE_REG_INIT
-  wire  disabled_submodule_clock; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 53:36]
-  wire  disabled_submodule_reset; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 53:36]
+  wire  disabled_submodule_clk; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 53:36]
+  wire  disabled_submodule_rst_n; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 53:36]
   wire [3:0] disabled_submodule_io_fdi_lp_state_req; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 53:36]
   wire [3:0] disabled_submodule_io_fdi_lp_state_req_prev; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 53:36]
   wire [3:0] disabled_submodule_io_link_state; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 53:36]
@@ -644,17 +644,17 @@ module LinkManagementController(
   wire [5:0] disabled_submodule_io_disabled_sb_snd; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 53:36]
   wire [5:0] disabled_submodule_io_disabled_sb_rcv; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 53:36]
   wire  disabled_submodule_io_disabled_sb_rdy; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 53:36]
-  wire  linkreset_submodule_clock; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 55:37]
-  wire  linkreset_submodule_reset; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 55:37]
-  wire [3:0] linkreset_submodule_io_fdi_lp_state_req; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 55:37]
-  wire [3:0] linkreset_submodule_io_fdi_lp_state_req_prev; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 55:37]
-  wire [3:0] linkreset_submodule_io_link_state; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 55:37]
-  wire  linkreset_submodule_io_linkreset_entry; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 55:37]
-  wire [5:0] linkreset_submodule_io_linkreset_sb_snd; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 55:37]
-  wire [5:0] linkreset_submodule_io_linkreset_sb_rcv; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 55:37]
-  wire  linkreset_submodule_io_linkreset_sb_rdy; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 55:37]
-  wire  linkinit_submodule_clock; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 57:36]
-  wire  linkinit_submodule_reset; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 57:36]
+  wire  linkrst_n_submodule_clk; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 55:37]
+  wire  linkrst_n_submodule_rst_n; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 55:37]
+  wire [3:0] linkrst_n_submodule_io_fdi_lp_state_req; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 55:37]
+  wire [3:0] linkrst_n_submodule_io_fdi_lp_state_req_prev; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 55:37]
+  wire [3:0] linkrst_n_submodule_io_link_state; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 55:37]
+  wire  linkrst_n_submodule_io_linkrst_n_entry; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 55:37]
+  wire [5:0] linkrst_n_submodule_io_linkrst_n_sb_snd; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 55:37]
+  wire [5:0] linkrst_n_submodule_io_linkrst_n_sb_rcv; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 55:37]
+  wire  linkrst_n_submodule_io_linkrst_n_sb_rdy; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 55:37]
+  wire  linkinit_submodule_clk; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 57:36]
+  wire  linkinit_submodule_rst_n; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 57:36]
   wire [3:0] linkinit_submodule_io_fdi_lp_state_req; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 57:36]
   wire [3:0] linkinit_submodule_io_fdi_lp_state_req_prev; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 57:36]
   wire  linkinit_submodule_io_fdi_lp_rxactive_sts; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 57:36]
@@ -668,8 +668,8 @@ module LinkManagementController(
   wire [5:0] linkinit_submodule_io_linkinit_sb_snd; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 57:36]
   wire [5:0] linkinit_submodule_io_linkinit_sb_rcv; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 57:36]
   wire  linkinit_submodule_io_linkinit_sb_rdy; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 57:36]
-  wire  parity_negotiation_submodule_clock; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 59:46]
-  wire  parity_negotiation_submodule_reset; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 59:46]
+  wire  parity_negotiation_submodule_clk; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 59:46]
+  wire  parity_negotiation_submodule_rst_n; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 59:46]
   wire  parity_negotiation_submodule_io_start_negotiation; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 59:46]
   wire [5:0] parity_negotiation_submodule_io_parity_sb_rcv; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 59:46]
   wire [5:0] parity_negotiation_submodule_io_parity_sb_snd; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 59:46]
@@ -689,10 +689,10 @@ module LinkManagementController(
   wire  rx_deactive = ~io_fdi_lp_rx_active_sts & ~io_fdi_pl_rx_active_req; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 156:50]
   wire  retrain_phy_sts = io_rdi_pl_state_sts == 4'hb; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 160:48]
   wire  _T = link_state_reg == 4'h1; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 169:25]
-  wire  _linkmgmt_stallreq_reg_T = linkreset_submodule_io_linkreset_entry | disabled_submodule_io_disabled_entry; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 170:50]
-  wire  _linkmgmt_stallreq_reg_T_1 = linkreset_submodule_io_linkreset_entry | disabled_submodule_io_disabled_entry |
+  wire  _linkmgmt_stallreq_reg_T = linkrst_n_submodule_io_linkrst_n_entry | disabled_submodule_io_disabled_entry; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 170:50]
+  wire  _linkmgmt_stallreq_reg_T_1 = linkrst_n_submodule_io_linkrst_n_entry | disabled_submodule_io_disabled_entry |
     retrain_phy_sts; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 170:68]
-  wire  _GEN_0 = link_state_reg == 4'h1 & (linkreset_submodule_io_linkreset_entry | disabled_submodule_io_disabled_entry
+  wire  _GEN_0 = link_state_reg == 4'h1 & (linkrst_n_submodule_io_linkrst_n_entry | disabled_submodule_io_disabled_entry
      | retrain_phy_sts); // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 169:46 170:31 172:31]
   wire  _T_7 = link_state_reg == 4'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 191:25]
   wire  _T_8 = link_state_reg == 4'ha; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 197:31]
@@ -701,23 +701,23 @@ module LinkManagementController(
   wire  _T_11 = link_state_reg == 4'h9; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 199:32]
   wire  _T_12 = _T_10 | _T_11; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 198:54]
   wire  _T_14 = disabled_submodule_io_disabled_sb_snd != 6'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 216:30]
-  wire  _T_15 = linkreset_submodule_io_linkreset_sb_snd != 6'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 219:37]
+  wire  _T_15 = linkrst_n_submodule_io_linkrst_n_sb_snd != 6'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 219:37]
   wire [5:0] _GEN_8 = linkinit_submodule_io_linkinit_sb_snd != 6'h0 ? linkinit_submodule_io_linkinit_sb_snd : 6'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 222:60 223:23 226:23]
   wire  _GEN_9 = linkinit_submodule_io_linkinit_sb_snd != 6'h0 & io_sb_rdy; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 212:21 222:60 224:29]
-  wire [5:0] _GEN_10 = linkreset_submodule_io_linkreset_sb_snd != 6'h0 ? linkreset_submodule_io_linkreset_sb_snd :
+  wire [5:0] _GEN_10 = linkrst_n_submodule_io_linkrst_n_sb_snd != 6'h0 ? linkrst_n_submodule_io_linkrst_n_sb_snd :
     _GEN_8; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 219:61 220:23]
-  wire  _GEN_11 = linkreset_submodule_io_linkreset_sb_snd != 6'h0 & io_sb_rdy; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 210:22 219:61 221:30]
-  wire  _GEN_12 = linkreset_submodule_io_linkreset_sb_snd != 6'h0 ? 1'h0 : _GEN_9; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 212:21 219:61]
+  wire  _GEN_11 = linkrst_n_submodule_io_linkrst_n_sb_snd != 6'h0 & io_sb_rdy; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 210:22 219:61 221:30]
+  wire  _GEN_12 = linkrst_n_submodule_io_linkrst_n_sb_snd != 6'h0 ? 1'h0 : _GEN_9; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 212:21 219:61]
   wire [5:0] _GEN_13 = disabled_submodule_io_disabled_sb_snd != 6'h0 ? disabled_submodule_io_disabled_sb_snd : _GEN_10; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 216:54 217:23]
   wire  _GEN_14 = disabled_submodule_io_disabled_sb_snd != 6'h0 & io_sb_rdy; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 211:21 216:54 218:29]
   wire  _GEN_15 = disabled_submodule_io_disabled_sb_snd != 6'h0 ? 1'h0 : _GEN_11; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 210:22 216:54]
   wire  _GEN_16 = disabled_submodule_io_disabled_sb_snd != 6'h0 ? 1'h0 : _GEN_12; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 212:21 216:54]
-  wire [5:0] _GEN_17 = _T_15 ? linkreset_submodule_io_linkreset_sb_snd : 6'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 232:61 233:23 236:23]
+  wire [5:0] _GEN_17 = _T_15 ? linkrst_n_submodule_io_linkrst_n_sb_snd : 6'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 232:61 233:23 236:23]
   wire [5:0] _GEN_19 = _T_14 ? disabled_submodule_io_disabled_sb_snd : _GEN_17; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 229:54 230:23]
   wire [5:0] _GEN_22 = parity_negotiation_submodule_io_parity_sb_snd != 6'h0 ?
     parity_negotiation_submodule_io_parity_sb_snd : 6'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 245:70 246:23 249:23]
   wire  _GEN_23 = parity_negotiation_submodule_io_parity_sb_snd != 6'h0 & io_sb_rdy; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 213:31 245:70 247:39]
-  wire [5:0] _GEN_24 = _T_15 ? linkreset_submodule_io_linkreset_sb_snd : _GEN_22; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 242:61 243:23]
+  wire [5:0] _GEN_24 = _T_15 ? linkrst_n_submodule_io_linkrst_n_sb_snd : _GEN_22; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 242:61 243:23]
   wire  _GEN_26 = _T_15 ? 1'h0 : _GEN_23; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 213:31 242:61]
   wire [5:0] _GEN_27 = _T_14 ? disabled_submodule_io_disabled_sb_snd : _GEN_24; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 239:54 240:23]
   wire  _GEN_30 = _T_14 ? 1'h0 : _GEN_26; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 213:31 239:54]
@@ -740,13 +740,13 @@ module LinkManagementController(
   wire [3:0] _GEN_54 = _T_9 ? _GEN_51 : _GEN_53; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 281:54]
   wire [3:0] _GEN_55 = _T_8 ? {{3'd0}, _T_35} : _GEN_54; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 273:55]
   wire  _T_43 = disabled_submodule_io_disabled_entry & rx_deactive; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 303:39]
-  wire  _T_44 = linkreset_submodule_io_linkreset_entry & rx_deactive; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 305:40]
+  wire  _T_44 = linkrst_n_submodule_io_linkrst_n_entry & rx_deactive; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 305:40]
   wire [3:0] _GEN_59 = linkinit_submodule_io_active_entry ? 4'h1 : link_state_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 307:38 308:32 310:32]
-  wire [3:0] _GEN_60 = linkreset_submodule_io_linkreset_entry & rx_deactive ? 4'h9 : _GEN_59; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 305:56 306:32]
+  wire [3:0] _GEN_60 = linkrst_n_submodule_io_linkrst_n_entry & rx_deactive ? 4'h9 : _GEN_59; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 305:56 306:32]
   wire [3:0] _GEN_63 = retrain_phy_sts & rx_deactive & stallhandler_handshake_done ? 4'hb : link_state_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 321:87 322:32 324:32]
   wire [3:0] _GEN_64 = _T_44 & stallhandler_handshake_done ? 4'h9 : _GEN_63; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 319:87 320:32]
   wire [3:0] _GEN_65 = _T_43 & stallhandler_handshake_done ? 4'hc : _GEN_64; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 317:86 318:32]
-  wire [3:0] _GEN_67 = linkreset_submodule_io_linkreset_entry ? 4'h9 : link_state_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 335:41 336:32 338:32]
+  wire [3:0] _GEN_67 = linkrst_n_submodule_io_linkrst_n_entry ? 4'h9 : link_state_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 335:41 336:32 338:32]
   wire [3:0] _GEN_68 = disabled_submodule_io_disabled_entry ? 4'hc : _GEN_67; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 333:40 334:32]
   wire [3:0] _GEN_69 = linkerror_phy_sts ? 4'ha : _GEN_68; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 331:37 332:32]
   wire  _T_62 = _T_33 | linkerror_phy_sts; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 345:62]
@@ -761,8 +761,8 @@ module LinkManagementController(
   wire [3:0] _GEN_77 = 4'hc == link_state_reg ? _GEN_72 : _GEN_76; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 297:28]
   wire [3:0] _GEN_78 = 4'ha == link_state_reg ? _GEN_70 : _GEN_77; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 297:28]
   LinkDisabledSubmodule disabled_submodule ( // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 53:36]
-    .clock(disabled_submodule_clock),
-    .reset(disabled_submodule_reset),
+    .clk(disabled_submodule_clk),
+    .rst_n(disabled_submodule_rst_n),
     .io_fdi_lp_state_req(disabled_submodule_io_fdi_lp_state_req),
     .io_fdi_lp_state_req_prev(disabled_submodule_io_fdi_lp_state_req_prev),
     .io_link_state(disabled_submodule_io_link_state),
@@ -771,20 +771,20 @@ module LinkManagementController(
     .io_disabled_sb_rcv(disabled_submodule_io_disabled_sb_rcv),
     .io_disabled_sb_rdy(disabled_submodule_io_disabled_sb_rdy)
   );
-  LinkResetSubmodule linkreset_submodule ( // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 55:37]
-    .clock(linkreset_submodule_clock),
-    .reset(linkreset_submodule_reset),
-    .io_fdi_lp_state_req(linkreset_submodule_io_fdi_lp_state_req),
-    .io_fdi_lp_state_req_prev(linkreset_submodule_io_fdi_lp_state_req_prev),
-    .io_link_state(linkreset_submodule_io_link_state),
-    .io_linkreset_entry(linkreset_submodule_io_linkreset_entry),
-    .io_linkreset_sb_snd(linkreset_submodule_io_linkreset_sb_snd),
-    .io_linkreset_sb_rcv(linkreset_submodule_io_linkreset_sb_rcv),
-    .io_linkreset_sb_rdy(linkreset_submodule_io_linkreset_sb_rdy)
+  LinkResetSubmodule linkrst_n_submodule ( // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 55:37]
+    .clk(linkrst_n_submodule_clk),
+    .rst_n(linkrst_n_submodule_rst_n),
+    .io_fdi_lp_state_req(linkrst_n_submodule_io_fdi_lp_state_req),
+    .io_fdi_lp_state_req_prev(linkrst_n_submodule_io_fdi_lp_state_req_prev),
+    .io_link_state(linkrst_n_submodule_io_link_state),
+    .io_linkrst_n_entry(linkrst_n_submodule_io_linkrst_n_entry),
+    .io_linkrst_n_sb_snd(linkrst_n_submodule_io_linkrst_n_sb_snd),
+    .io_linkrst_n_sb_rcv(linkrst_n_submodule_io_linkrst_n_sb_rcv),
+    .io_linkrst_n_sb_rdy(linkrst_n_submodule_io_linkrst_n_sb_rdy)
   );
   LinkInitSubmodule linkinit_submodule ( // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 57:36]
-    .clock(linkinit_submodule_clock),
-    .reset(linkinit_submodule_reset),
+    .clk(linkinit_submodule_clk),
+    .rst_n(linkinit_submodule_rst_n),
     .io_fdi_lp_state_req(linkinit_submodule_io_fdi_lp_state_req),
     .io_fdi_lp_state_req_prev(linkinit_submodule_io_fdi_lp_state_req_prev),
     .io_fdi_lp_rxactive_sts(linkinit_submodule_io_fdi_lp_rxactive_sts),
@@ -800,8 +800,8 @@ module LinkManagementController(
     .io_linkinit_sb_rdy(linkinit_submodule_io_linkinit_sb_rdy)
   );
   ParityNegotiationSubmodule parity_negotiation_submodule ( // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 59:46]
-    .clock(parity_negotiation_submodule_clock),
-    .reset(parity_negotiation_submodule_reset),
+    .clk(parity_negotiation_submodule_clk),
+    .rst_n(parity_negotiation_submodule_rst_n),
     .io_start_negotiation(parity_negotiation_submodule_io_start_negotiation),
     .io_parity_sb_rcv(parity_negotiation_submodule_io_parity_sb_rcv),
     .io_parity_sb_snd(parity_negotiation_submodule_io_parity_sb_snd),
@@ -818,22 +818,22 @@ module LinkManagementController(
   assign io_linkmgmt_stallreq = linkmgmt_stallreq_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 86:26]
   assign io_parity_rx_enable = parity_negotiation_submodule_io_parity_rx_enable; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 133:25]
   assign io_parity_tx_enable = parity_negotiation_submodule_io_parity_tx_enable; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 132:25]
-  assign disabled_submodule_clock = clock;
-  assign disabled_submodule_reset = reset;
+  assign disabled_submodule_clk = clk;
+  assign disabled_submodule_rst_n = rst_n;
   assign disabled_submodule_io_fdi_lp_state_req = io_fdi_lp_state_req; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 93:44]
   assign disabled_submodule_io_fdi_lp_state_req_prev = fdi_lp_state_req_prev_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 94:49]
   assign disabled_submodule_io_link_state = link_state_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 95:38]
   assign disabled_submodule_io_disabled_sb_rcv = io_sb_rcv; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 100:43]
   assign disabled_submodule_io_disabled_sb_rdy = _T_7 ? _GEN_14 : _GEN_41; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 215:44]
-  assign linkreset_submodule_clock = clock;
-  assign linkreset_submodule_reset = reset;
-  assign linkreset_submodule_io_fdi_lp_state_req = io_fdi_lp_state_req; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 104:45]
-  assign linkreset_submodule_io_fdi_lp_state_req_prev = fdi_lp_state_req_prev_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 105:50]
-  assign linkreset_submodule_io_link_state = link_state_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 106:39]
-  assign linkreset_submodule_io_linkreset_sb_rcv = io_sb_rcv; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 111:45]
-  assign linkreset_submodule_io_linkreset_sb_rdy = _T_7 ? _GEN_15 : _GEN_42; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 215:44]
-  assign linkinit_submodule_clock = clock;
-  assign linkinit_submodule_reset = reset;
+  assign linkrst_n_submodule_clk = clk;
+  assign linkrst_n_submodule_rst_n = rst_n;
+  assign linkrst_n_submodule_io_fdi_lp_state_req = io_fdi_lp_state_req; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 104:45]
+  assign linkrst_n_submodule_io_fdi_lp_state_req_prev = fdi_lp_state_req_prev_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 105:50]
+  assign linkrst_n_submodule_io_link_state = link_state_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 106:39]
+  assign linkrst_n_submodule_io_linkrst_n_sb_rcv = io_sb_rcv; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 111:45]
+  assign linkrst_n_submodule_io_linkrst_n_sb_rdy = _T_7 ? _GEN_15 : _GEN_42; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 215:44]
+  assign linkinit_submodule_clk = clk;
+  assign linkinit_submodule_rst_n = rst_n;
   assign linkinit_submodule_io_fdi_lp_state_req = io_fdi_lp_state_req; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 115:44]
   assign linkinit_submodule_io_fdi_lp_state_req_prev = fdi_lp_state_req_prev_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 116:49]
   assign linkinit_submodule_io_fdi_lp_rxactive_sts = io_fdi_lp_rx_active_sts; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 117:47]
@@ -842,18 +842,18 @@ module LinkManagementController(
   assign linkinit_submodule_io_link_state = link_state_reg; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 120:38]
   assign linkinit_submodule_io_linkinit_sb_rcv = io_sb_rcv; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 128:43]
   assign linkinit_submodule_io_linkinit_sb_rdy = _T_7 & _GEN_16; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 212:21 215:44]
-  assign parity_negotiation_submodule_clock = clock;
-  assign parity_negotiation_submodule_reset = reset;
+  assign parity_negotiation_submodule_clk = clk;
+  assign parity_negotiation_submodule_rst_n = rst_n;
   assign parity_negotiation_submodule_io_start_negotiation = link_state_reg == 4'hb; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 135:73]
   assign parity_negotiation_submodule_io_parity_sb_rcv = io_sb_rcv; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 137:51]
   assign parity_negotiation_submodule_io_parity_sb_rdy = _T_7 ? 1'h0 : _GEN_43; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 213:31 215:44]
-  always @(posedge clock) begin
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 63:39]
+  always @(posedge clk) begin
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 63:39]
       rdi_lp_linkerror_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 63:39]
     end else begin
       rdi_lp_linkerror_reg <= io_fdi_lp_linkerror; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 89:26]
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 64:39]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 64:39]
       rdi_lp_state_req_reg <= 4'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 64:39]
     end else if (_T_7) begin // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 265:45]
       rdi_lp_state_req_reg <= linkinit_submodule_io_linkinit_rdi_lp_state_req; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 266:30]
@@ -866,7 +866,7 @@ module LinkManagementController(
     end else begin
       rdi_lp_state_req_reg <= _GEN_55;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 66:42]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 66:42]
       fdi_pl_rxactive_req_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 66:42]
     end else if (_T) begin // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 176:45]
       if (_linkmgmt_stallreq_reg_T_1 | linkerror_phy_sts) begin // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 177:88]
@@ -879,7 +879,7 @@ module LinkManagementController(
     end else begin
       fdi_pl_rxactive_req_reg <= linkinit_submodule_io_linkinit_fdi_pl_rxactive_req; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 186:37]
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 67:41]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 67:41]
       fdi_pl_inband_pres_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 67:41]
     end else if (link_state_reg == 4'h0) begin // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 191:44]
       if (linkerror_phy_sts) begin // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 192:32]
@@ -894,13 +894,13 @@ module LinkManagementController(
     end else begin
       fdi_pl_inband_pres_reg <= 1'h1; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 205:36]
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 69:40]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 69:40]
       linkmgmt_stallreq_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 69:40]
     end else begin
       linkmgmt_stallreq_reg <= _GEN_0;
     end
     fdi_lp_state_req_prev_reg <= io_fdi_lp_state_req; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 72:44]
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 75:33]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 75:33]
       link_state_reg <= 4'h0; // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 75:33]
     end else if (4'h0 == link_state_reg) begin // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 297:28]
       if (linkerror_phy_sts) begin // @[\\src\\main\\scala\\d2dadapter\\LinkManagementController.scala 300:37]
@@ -981,8 +981,8 @@ end // initial
 `endif // SYNTHESIS
 endmodule
 module FDIStallHandler(
-  input   clock,
-  input   reset,
+  input   clk,
+  input   rst_n,
   input   io_linkmgmt_stallreq, // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 27:16]
   output  io_linkmgmt_stalldone, // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 27:16]
   output  io_fdi_pl_stallreq, // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 27:16]
@@ -1006,15 +1006,15 @@ module FDIStallHandler(
   wire [1:0] _GEN_14 = 2'h3 == stall_handshake_state_reg ? _GEN_11 : stall_handshake_state_reg; // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 36:31 40:38]
   assign io_linkmgmt_stalldone = linkmgmt_stalldone_reg; // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 32:27]
   assign io_fdi_pl_stallreq = fdi_lp_stallreq_reg; // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 31:24]
-  always @(posedge clock) begin
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 28:38]
+  always @(posedge clk) begin
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 28:38]
       fdi_lp_stallreq_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 28:38]
     end else if (2'h0 == stall_handshake_state_reg) begin // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 40:38]
       fdi_lp_stallreq_reg <= _T_4;
     end else begin
       fdi_lp_stallreq_reg <= 2'h1 == stall_handshake_state_reg & _GEN_3;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 29:41]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 29:41]
       linkmgmt_stalldone_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 29:41]
     end else if (2'h0 == stall_handshake_state_reg) begin // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 40:38]
       linkmgmt_stalldone_reg <= 1'h0;
@@ -1025,7 +1025,7 @@ module FDIStallHandler(
     end else begin
       linkmgmt_stalldone_reg <= _GEN_13;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 34:44]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 34:44]
       stall_handshake_state_reg <= 2'h0; // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 34:44]
     end else if (2'h0 == stall_handshake_state_reg) begin // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 40:38]
       if (io_linkmgmt_stallreq & ~io_fdi_lp_stallack) begin // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 42:62]
@@ -1092,8 +1092,8 @@ end // initial
 `endif // SYNTHESIS
 endmodule
 module RDIStallHandler(
-  input   clock,
-  input   reset,
+  input   clk,
+  input   rst_n,
   output  io_mainband_stallreq, // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 90:16]
   input   io_mainband_stalldone, // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 90:16]
   input   io_rdi_pl_stallreq, // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 90:16]
@@ -1112,8 +1112,8 @@ module RDIStallHandler(
   wire  _GEN_8 = 2'h2 == stall_handshake_state_reg ? _GEN_6 : mainband_stallreq_reg; // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 99:38 93:40]
   assign io_mainband_stallreq = mainband_stallreq_reg; // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 97:26]
   assign io_rdi_lp_stallack = rdi_lp_stallack_reg; // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 96:24]
-  always @(posedge clock) begin
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 92:38]
+  always @(posedge clk) begin
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 92:38]
       rdi_lp_stallack_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 92:38]
     end else if (2'h0 == stall_handshake_state_reg) begin // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 99:38]
       rdi_lp_stallack_reg <= 1'h0;
@@ -1122,14 +1122,14 @@ module RDIStallHandler(
     end else if (2'h2 == stall_handshake_state_reg) begin // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 99:38]
       rdi_lp_stallack_reg <= _GEN_6;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 93:40]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 93:40]
       mainband_stallreq_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 93:40]
     end else if (2'h0 == stall_handshake_state_reg) begin // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 99:38]
       mainband_stallreq_reg <= io_rdi_pl_stallreq;
     end else begin
       mainband_stallreq_reg <= 2'h1 == stall_handshake_state_reg | _GEN_8;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 94:44]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 94:44]
       stall_handshake_state_reg <= 2'h0; // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 94:44]
     end else if (2'h0 == stall_handshake_state_reg) begin // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 99:38]
       if (io_rdi_pl_stallreq) begin // @[\\src\\main\\scala\\d2dadapter\\StallHandler.scala 101:37]
@@ -1194,8 +1194,8 @@ end // initial
 `endif // SYNTHESIS
 endmodule
 module SidebandSerializer(
-  input          clock,
-  input          reset,
+  input          clk,
+  input          rst_n,
   output         io_in_ready, // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 164:14]
   input          io_in_valid, // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 164:14]
   input  [127:0] io_in_bits, // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 164:14]
@@ -1224,20 +1224,20 @@ module SidebandSerializer(
   assign io_in_ready = ~sending & _io_in_ready_T_10; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 183:28]
   assign io_out_bits = data; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 187:22]
   assign io_out_valid = (_io_in_ready_T_9 | isComplete) & sending; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 186:59]
-  always @(posedge clock) begin
+  always @(posedge clk) begin
     if (io_out_valid) begin // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 195:22]
       data <= 128'h0; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 195:29]
     end else if (_T) begin // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 189:20]
       data <= io_in_bits; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 190:10]
     end
-    if (reset) begin // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 177:24]
+    if (rst_n) begin // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 177:24]
       sending <= 1'h0; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 177:24]
     end else if (io_out_valid) begin // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 197:18]
       sending <= 1'h0; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 198:13]
     end else begin
       sending <= _GEN_2;
     end
-    if (reset) begin // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 180:31]
+    if (rst_n) begin // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 180:31]
       current_credit <= 6'h20; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 180:31]
     end else if (io_out_credit) begin // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 202:23]
       current_credit <= _current_credit_T_3; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 202:40]
@@ -1246,7 +1246,7 @@ module SidebandSerializer(
         current_credit <= _current_credit_T_1; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 199:51]
       end
     end
-    if (reset) begin // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 181:27]
+    if (rst_n) begin // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 181:27]
       isComplete <= 1'h0; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 181:27]
     end else if (_T) begin // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 189:20]
       isComplete <= _io_in_ready_T_8; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 192:16]
@@ -1305,8 +1305,8 @@ end // initial
 `endif // SYNTHESIS
 endmodule
 module Queue(
-  input          clock,
-  input          reset,
+  input          clk,
+  input          rst_n,
   output         io_enq_ready, // @[src/main/scala/chisel3/util/Decoupled.scala 273:14]
   input          io_enq_valid, // @[src/main/scala/chisel3/util/Decoupled.scala 273:14]
   input  [127:0] io_enq_bits, // @[src/main/scala/chisel3/util/Decoupled.scala 273:14]
@@ -1350,21 +1350,21 @@ module Queue(
   assign io_enq_ready = ~full; // @[src/main/scala/chisel3/util/Decoupled.scala 304:19]
   assign io_deq_valid = ~empty; // @[src/main/scala/chisel3/util/Decoupled.scala 303:19]
   assign io_deq_bits = ram_io_deq_bits_MPORT_data; // @[src/main/scala/chisel3/util/Decoupled.scala 311:17]
-  always @(posedge clock) begin
+  always @(posedge clk) begin
     if (ram_MPORT_en & ram_MPORT_mask) begin
       ram[ram_MPORT_addr] <= ram_MPORT_data; // @[src/main/scala/chisel3/util/Decoupled.scala 274:95]
     end
-    if (reset) begin // @[src/main/scala/chisel3/util/Counter.scala 61:40]
+    if (rst_n) begin // @[src/main/scala/chisel3/util/Counter.scala 61:40]
       enq_ptr_value <= 2'h0; // @[src/main/scala/chisel3/util/Counter.scala 61:40]
     end else if (do_enq) begin // @[src/main/scala/chisel3/util/Decoupled.scala 287:16]
       enq_ptr_value <= _value_T_1; // @[src/main/scala/chisel3/util/Counter.scala 77:15]
     end
-    if (reset) begin // @[src/main/scala/chisel3/util/Counter.scala 61:40]
+    if (rst_n) begin // @[src/main/scala/chisel3/util/Counter.scala 61:40]
       deq_ptr_value <= 2'h0; // @[src/main/scala/chisel3/util/Counter.scala 61:40]
     end else if (do_deq) begin // @[src/main/scala/chisel3/util/Decoupled.scala 291:16]
       deq_ptr_value <= _value_T_3; // @[src/main/scala/chisel3/util/Counter.scala 77:15]
     end
-    if (reset) begin // @[src/main/scala/chisel3/util/Decoupled.scala 277:27]
+    if (rst_n) begin // @[src/main/scala/chisel3/util/Decoupled.scala 277:27]
       maybe_full <= 1'h0; // @[src/main/scala/chisel3/util/Decoupled.scala 277:27]
     end else if (do_enq != do_deq) begin // @[src/main/scala/chisel3/util/Decoupled.scala 294:27]
       maybe_full <= do_enq; // @[src/main/scala/chisel3/util/Decoupled.scala 295:16]
@@ -1426,8 +1426,8 @@ end // initial
 `endif // SYNTHESIS
 endmodule
 module Queue_1(
-  input          clock,
-  input          reset,
+  input          clk,
+  input          rst_n,
   output         io_enq_ready, // @[src/main/scala/chisel3/util/Decoupled.scala 273:14]
   input          io_enq_valid, // @[src/main/scala/chisel3/util/Decoupled.scala 273:14]
   input  [127:0] io_enq_bits, // @[src/main/scala/chisel3/util/Decoupled.scala 273:14]
@@ -1471,21 +1471,21 @@ module Queue_1(
   assign io_enq_ready = ~full; // @[src/main/scala/chisel3/util/Decoupled.scala 304:19]
   assign io_deq_valid = ~empty; // @[src/main/scala/chisel3/util/Decoupled.scala 303:19]
   assign io_deq_bits = ram_io_deq_bits_MPORT_data; // @[src/main/scala/chisel3/util/Decoupled.scala 311:17]
-  always @(posedge clock) begin
+  always @(posedge clk) begin
     if (ram_MPORT_en & ram_MPORT_mask) begin
       ram[ram_MPORT_addr] <= ram_MPORT_data; // @[src/main/scala/chisel3/util/Decoupled.scala 274:95]
     end
-    if (reset) begin // @[src/main/scala/chisel3/util/Counter.scala 61:40]
+    if (rst_n) begin // @[src/main/scala/chisel3/util/Counter.scala 61:40]
       enq_ptr_value <= 5'h0; // @[src/main/scala/chisel3/util/Counter.scala 61:40]
     end else if (do_enq) begin // @[src/main/scala/chisel3/util/Decoupled.scala 287:16]
       enq_ptr_value <= _value_T_1; // @[src/main/scala/chisel3/util/Counter.scala 77:15]
     end
-    if (reset) begin // @[src/main/scala/chisel3/util/Counter.scala 61:40]
+    if (rst_n) begin // @[src/main/scala/chisel3/util/Counter.scala 61:40]
       deq_ptr_value <= 5'h0; // @[src/main/scala/chisel3/util/Counter.scala 61:40]
     end else if (do_deq) begin // @[src/main/scala/chisel3/util/Decoupled.scala 291:16]
       deq_ptr_value <= _value_T_3; // @[src/main/scala/chisel3/util/Counter.scala 77:15]
     end
-    if (reset) begin // @[src/main/scala/chisel3/util/Decoupled.scala 277:27]
+    if (rst_n) begin // @[src/main/scala/chisel3/util/Decoupled.scala 277:27]
       maybe_full <= 1'h0; // @[src/main/scala/chisel3/util/Decoupled.scala 277:27]
     end else if (do_enq != do_deq) begin // @[src/main/scala/chisel3/util/Decoupled.scala 294:27]
       maybe_full <= do_enq; // @[src/main/scala/chisel3/util/Decoupled.scala 295:16]
@@ -1594,32 +1594,32 @@ module SidebandDeqArbiter(
   assign io_in_2_ready = io_in_0_valid ? 1'h0 : _GEN_5; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 138:24 140:22]
 endmodule
 module SidebandPriorityQueue(
-  input          clock,
-  input          reset,
+  input          clk,
+  input          rst_n,
   input          io_enq_valid, // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 85:14]
   input  [127:0] io_enq_bits, // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 85:14]
   input          io_deq_ready, // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 85:14]
   output         io_deq_valid, // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 85:14]
   output [127:0] io_deq_bits // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 85:14]
 );
-  wire  p0_queue_clock; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 90:24]
-  wire  p0_queue_reset; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 90:24]
+  wire  p0_queue_clk; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 90:24]
+  wire  p0_queue_rst_n; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 90:24]
   wire  p0_queue_io_enq_ready; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 90:24]
   wire  p0_queue_io_enq_valid; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 90:24]
   wire [127:0] p0_queue_io_enq_bits; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 90:24]
   wire  p0_queue_io_deq_ready; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 90:24]
   wire  p0_queue_io_deq_valid; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 90:24]
   wire [127:0] p0_queue_io_deq_bits; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 90:24]
-  wire  p1_queue_clock; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 93:24]
-  wire  p1_queue_reset; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 93:24]
+  wire  p1_queue_clk; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 93:24]
+  wire  p1_queue_rst_n; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 93:24]
   wire  p1_queue_io_enq_ready; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 93:24]
   wire  p1_queue_io_enq_valid; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 93:24]
   wire [127:0] p1_queue_io_enq_bits; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 93:24]
   wire  p1_queue_io_deq_ready; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 93:24]
   wire  p1_queue_io_deq_valid; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 93:24]
   wire [127:0] p1_queue_io_deq_bits; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 93:24]
-  wire  p2_queue_clock; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 96:24]
-  wire  p2_queue_reset; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 96:24]
+  wire  p2_queue_clk; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 96:24]
+  wire  p2_queue_rst_n; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 96:24]
   wire  p2_queue_io_enq_ready; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 96:24]
   wire  p2_queue_io_enq_valid; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 96:24]
   wire [127:0] p2_queue_io_enq_bits; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 96:24]
@@ -1647,8 +1647,8 @@ module SidebandPriorityQueue(
   wire  deq_arb_io_in_2_valid; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 101:23]
   wire [127:0] deq_arb_io_in_2_bits; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 101:23]
   Queue p0_queue ( // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 90:24]
-    .clock(p0_queue_clock),
-    .reset(p0_queue_reset),
+    .clk(p0_queue_clk),
+    .rst_n(p0_queue_rst_n),
     .io_enq_ready(p0_queue_io_enq_ready),
     .io_enq_valid(p0_queue_io_enq_valid),
     .io_enq_bits(p0_queue_io_enq_bits),
@@ -1657,8 +1657,8 @@ module SidebandPriorityQueue(
     .io_deq_bits(p0_queue_io_deq_bits)
   );
   Queue_1 p1_queue ( // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 93:24]
-    .clock(p1_queue_clock),
-    .reset(p1_queue_reset),
+    .clk(p1_queue_clk),
+    .rst_n(p1_queue_rst_n),
     .io_enq_ready(p1_queue_io_enq_ready),
     .io_enq_valid(p1_queue_io_enq_valid),
     .io_enq_bits(p1_queue_io_enq_bits),
@@ -1667,8 +1667,8 @@ module SidebandPriorityQueue(
     .io_deq_bits(p1_queue_io_deq_bits)
   );
   Queue_1 p2_queue ( // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 96:24]
-    .clock(p2_queue_clock),
-    .reset(p2_queue_reset),
+    .clk(p2_queue_clk),
+    .rst_n(p2_queue_rst_n),
     .io_enq_ready(p2_queue_io_enq_ready),
     .io_enq_valid(p2_queue_io_enq_valid),
     .io_enq_bits(p2_queue_io_enq_bits),
@@ -1702,18 +1702,18 @@ module SidebandPriorityQueue(
   );
   assign io_deq_valid = deq_arb_io_out_valid; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 111:18]
   assign io_deq_bits = deq_arb_io_out_bits; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 111:18]
-  assign p0_queue_clock = clock;
-  assign p0_queue_reset = reset;
+  assign p0_queue_clk = clk;
+  assign p0_queue_rst_n = rst_n;
   assign p0_queue_io_enq_valid = enq_arb_io_out_0_valid; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 104:21]
   assign p0_queue_io_enq_bits = enq_arb_io_out_0_bits; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 104:21]
   assign p0_queue_io_deq_ready = deq_arb_io_in_0_ready; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 108:20]
-  assign p1_queue_clock = clock;
-  assign p1_queue_reset = reset;
+  assign p1_queue_clk = clk;
+  assign p1_queue_rst_n = rst_n;
   assign p1_queue_io_enq_valid = enq_arb_io_out_1_valid; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 105:21]
   assign p1_queue_io_enq_bits = enq_arb_io_out_1_bits; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 105:21]
   assign p1_queue_io_deq_ready = deq_arb_io_in_1_ready; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 109:20]
-  assign p2_queue_clock = clock;
-  assign p2_queue_reset = reset;
+  assign p2_queue_clk = clk;
+  assign p2_queue_rst_n = rst_n;
   assign p2_queue_io_enq_valid = enq_arb_io_out_2_valid; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 106:21]
   assign p2_queue_io_enq_bits = enq_arb_io_out_2_bits; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 106:21]
   assign p2_queue_io_deq_ready = deq_arb_io_in_2_ready; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 110:20]
@@ -1728,8 +1728,8 @@ module SidebandPriorityQueue(
   assign deq_arb_io_in_2_bits = p2_queue_io_deq_bits; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 110:20]
 endmodule
 module SidebandDeserializer(
-  input          clock,
-  input          reset,
+  input          clk,
+  input          rst_n,
   input  [127:0] io_in_bits, // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 211:14]
   input          io_in_valid, // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 211:14]
   output         io_out_valid, // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 211:14]
@@ -1745,11 +1745,11 @@ module SidebandDeserializer(
   wire  _GEN_3 = io_out_valid | _GEN_2; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 235:{21,33}]
   assign io_out_valid = ~receiving; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 226:19]
   assign io_out_bits = data_0; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 227:15]
-  always @(posedge clock) begin
+  always @(posedge clk) begin
     if (io_in_valid) begin // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 229:21]
       data_0 <= io_in_bits; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 230:21]
     end
-    receiving <= reset | _GEN_3; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 223:{26,26}]
+    receiving <= rst_n | _GEN_3; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 223:{26,26}]
   end
 // Register and memory initialization
 `ifdef RANDOMIZE_GARBAGE_ASSIGN
@@ -1800,8 +1800,8 @@ end // initial
 `endif // SYNTHESIS
 endmodule
 module SidebandNode(
-  input          clock,
-  input          reset,
+  input          clk,
+  input          rst_n,
   output         io_inner_layer_to_node_ready, // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 58:14]
   input          io_inner_layer_to_node_valid, // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 58:14]
   input  [127:0] io_inner_layer_to_node_bits, // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 58:14]
@@ -1815,23 +1815,23 @@ module SidebandNode(
   input          io_outer_rx_valid, // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 58:14]
   output         io_outer_rx_credit // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 58:14]
 );
-  wire  tx_ser_clock; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 60:22]
-  wire  tx_ser_reset; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 60:22]
+  wire  tx_ser_clk; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 60:22]
+  wire  tx_ser_rst_n; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 60:22]
   wire  tx_ser_io_in_ready; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 60:22]
   wire  tx_ser_io_in_valid; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 60:22]
   wire [127:0] tx_ser_io_in_bits; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 60:22]
   wire [127:0] tx_ser_io_out_bits; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 60:22]
   wire  tx_ser_io_out_valid; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 60:22]
   wire  tx_ser_io_out_credit; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 60:22]
-  wire  rx_queue_clock; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 61:24]
-  wire  rx_queue_reset; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 61:24]
+  wire  rx_queue_clk; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 61:24]
+  wire  rx_queue_rst_n; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 61:24]
   wire  rx_queue_io_enq_valid; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 61:24]
   wire [127:0] rx_queue_io_enq_bits; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 61:24]
   wire  rx_queue_io_deq_ready; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 61:24]
   wire  rx_queue_io_deq_valid; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 61:24]
   wire [127:0] rx_queue_io_deq_bits; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 61:24]
-  wire  rx_des_clock; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 62:22]
-  wire  rx_des_reset; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 62:22]
+  wire  rx_des_clk; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 62:22]
+  wire  rx_des_rst_n; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 62:22]
   wire [127:0] rx_des_io_in_bits; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 62:22]
   wire  rx_des_io_in_valid; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 62:22]
   wire  rx_des_io_out_valid; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 62:22]
@@ -1841,8 +1841,8 @@ module SidebandNode(
   wire  _io_outer_rx_credit_T_8 = 128'h10 == _io_outer_rx_credit_T_1 | 128'h11 == _io_outer_rx_credit_T_1 | 128'h19 ==
     _io_outer_rx_credit_T_1; // @[\\src\\main\\scala\\sideband\\sb-msg-encoding.scala 368:58]
   SidebandSerializer tx_ser ( // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 60:22]
-    .clock(tx_ser_clock),
-    .reset(tx_ser_reset),
+    .clk(tx_ser_clk),
+    .rst_n(tx_ser_rst_n),
     .io_in_ready(tx_ser_io_in_ready),
     .io_in_valid(tx_ser_io_in_valid),
     .io_in_bits(tx_ser_io_in_bits),
@@ -1851,8 +1851,8 @@ module SidebandNode(
     .io_out_credit(tx_ser_io_out_credit)
   );
   SidebandPriorityQueue rx_queue ( // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 61:24]
-    .clock(rx_queue_clock),
-    .reset(rx_queue_reset),
+    .clk(rx_queue_clk),
+    .rst_n(rx_queue_rst_n),
     .io_enq_valid(rx_queue_io_enq_valid),
     .io_enq_bits(rx_queue_io_enq_bits),
     .io_deq_ready(rx_queue_io_deq_ready),
@@ -1860,8 +1860,8 @@ module SidebandNode(
     .io_deq_bits(rx_queue_io_deq_bits)
   );
   SidebandDeserializer rx_des ( // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 62:22]
-    .clock(rx_des_clock),
-    .reset(rx_des_reset),
+    .clk(rx_des_clk),
+    .rst_n(rx_des_rst_n),
     .io_in_bits(rx_des_io_in_bits),
     .io_in_valid(rx_des_io_in_valid),
     .io_out_valid(rx_des_io_out_valid),
@@ -1873,18 +1873,18 @@ module SidebandNode(
   assign io_outer_tx_bits = tx_ser_io_out_bits; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 65:15]
   assign io_outer_tx_valid = tx_ser_io_out_valid; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 65:15]
   assign io_outer_rx_credit = _io_outer_rx_credit_T & ~_io_outer_rx_credit_T_8; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 68:46]
-  assign tx_ser_clock = clock;
-  assign tx_ser_reset = reset;
+  assign tx_ser_clk = clk;
+  assign tx_ser_rst_n = rst_n;
   assign tx_ser_io_in_valid = io_inner_layer_to_node_valid; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 79:22]
   assign tx_ser_io_in_bits = io_inner_layer_to_node_bits; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 78:21]
   assign tx_ser_io_out_credit = io_outer_tx_credit; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 65:15]
-  assign rx_queue_clock = clock;
-  assign rx_queue_reset = reset;
+  assign rx_queue_clk = clk;
+  assign rx_queue_rst_n = rst_n;
   assign rx_queue_io_enq_valid = rx_des_io_out_valid; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 73:19]
   assign rx_queue_io_enq_bits = rx_des_io_out_bits; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 73:19]
   assign rx_queue_io_deq_ready = io_inner_node_to_layer_ready; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 81:26]
-  assign rx_des_clock = clock;
-  assign rx_des_reset = reset;
+  assign rx_des_clk = clk;
+  assign rx_des_rst_n = rst_n;
   assign rx_des_io_in_bits = io_outer_rx_bits; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 67:20]
   assign rx_des_io_in_valid = io_outer_rx_valid; // @[\\src\\main\\scala\\sideband\\sidebandNode.scala 66:21]
 endmodule
@@ -2076,8 +2076,8 @@ module sidebandSwitcher(
     outer_node_to_layer_above_subswitch_io_node_to_node_bits; // @[\\src\\main\\scala\\sideband\\sidebandSwitcher.scala 15:41 33:31]
 endmodule
 module D2DSidebandModule(
-  input          clock,
-  input          reset,
+  input          clk,
+  input          rst_n,
   output [127:0] io_fdi_pl_cfg, // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 38:16]
   output         io_fdi_pl_cfg_vld, // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 38:16]
   input          io_fdi_pl_cfg_crd, // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 38:16]
@@ -2094,8 +2094,8 @@ module D2DSidebandModule(
   input  [5:0]   io_sideband_snt, // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 38:16]
   output         io_sideband_rdy // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 38:16]
 );
-  wire  fdi_sideband_node_clock; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 40:35]
-  wire  fdi_sideband_node_reset; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 40:35]
+  wire  fdi_sideband_node_clk; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 40:35]
+  wire  fdi_sideband_node_rst_n; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 40:35]
   wire  fdi_sideband_node_io_inner_layer_to_node_ready; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 40:35]
   wire  fdi_sideband_node_io_inner_layer_to_node_valid; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 40:35]
   wire [127:0] fdi_sideband_node_io_inner_layer_to_node_bits; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 40:35]
@@ -2108,8 +2108,8 @@ module D2DSidebandModule(
   wire [127:0] fdi_sideband_node_io_outer_rx_bits; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 40:35]
   wire  fdi_sideband_node_io_outer_rx_valid; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 40:35]
   wire  fdi_sideband_node_io_outer_rx_credit; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 40:35]
-  wire  rdi_sideband_node_clock; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 41:35]
-  wire  rdi_sideband_node_reset; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 41:35]
+  wire  rdi_sideband_node_clk; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 41:35]
+  wire  rdi_sideband_node_rst_n; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 41:35]
   wire  rdi_sideband_node_io_inner_layer_to_node_ready; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 41:35]
   wire  rdi_sideband_node_io_inner_layer_to_node_valid; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 41:35]
   wire [127:0] rdi_sideband_node_io_inner_layer_to_node_bits; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 41:35]
@@ -2174,8 +2174,8 @@ module D2DSidebandModule(
   wire [142:0] _GEN_30 = io_sideband_snt == 6'h1 ? 143'h50000012000c012 : _GEN_29; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 111:61 112:63]
   wire [142:0] _GEN_31 = io_sideband_snt != 6'h0 ? _GEN_30 : 143'h500000020000012; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 110:50 147:59]
   SidebandNode fdi_sideband_node ( // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 40:35]
-    .clock(fdi_sideband_node_clock),
-    .reset(fdi_sideband_node_reset),
+    .clk(fdi_sideband_node_clk),
+    .rst_n(fdi_sideband_node_rst_n),
     .io_inner_layer_to_node_ready(fdi_sideband_node_io_inner_layer_to_node_ready),
     .io_inner_layer_to_node_valid(fdi_sideband_node_io_inner_layer_to_node_valid),
     .io_inner_layer_to_node_bits(fdi_sideband_node_io_inner_layer_to_node_bits),
@@ -2190,8 +2190,8 @@ module D2DSidebandModule(
     .io_outer_rx_credit(fdi_sideband_node_io_outer_rx_credit)
   );
   SidebandNode rdi_sideband_node ( // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 41:35]
-    .clock(rdi_sideband_node_clock),
-    .reset(rdi_sideband_node_reset),
+    .clk(rdi_sideband_node_clk),
+    .rst_n(rdi_sideband_node_rst_n),
     .io_inner_layer_to_node_ready(rdi_sideband_node_io_inner_layer_to_node_ready),
     .io_inner_layer_to_node_valid(rdi_sideband_node_io_inner_layer_to_node_valid),
     .io_inner_layer_to_node_bits(rdi_sideband_node_io_inner_layer_to_node_bits),
@@ -2235,16 +2235,16 @@ module D2DSidebandModule(
     sideband_switch_io_inner_node_to_layer_above_ready ? _GEN_14 : 6'h0; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 71:115 106:25]
   assign io_sideband_rdy = io_sideband_snt != 6'h0 & (sideband_switch_io_inner_layer_to_node_below_valid &
     sideband_switch_io_inner_layer_to_node_below_ready); // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 110:50 145:25 149:25]
-  assign fdi_sideband_node_clock = clock;
-  assign fdi_sideband_node_reset = reset;
+  assign fdi_sideband_node_clk = clk;
+  assign fdi_sideband_node_rst_n = rst_n;
   assign fdi_sideband_node_io_inner_layer_to_node_valid = sideband_switch_io_outer_layer_to_node_above_valid; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 60:50]
   assign fdi_sideband_node_io_inner_layer_to_node_bits = sideband_switch_io_outer_layer_to_node_above_bits; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 60:50]
   assign fdi_sideband_node_io_inner_node_to_layer_ready = sideband_switch_io_outer_node_to_layer_above_ready; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 62:50]
   assign fdi_sideband_node_io_outer_tx_credit = io_fdi_pl_cfg_crd; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 46:42]
   assign fdi_sideband_node_io_outer_rx_bits = io_fdi_lp_cfg; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 48:40]
   assign fdi_sideband_node_io_outer_rx_valid = io_fdi_lp_cfg_vld; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 49:41]
-  assign rdi_sideband_node_clock = clock;
-  assign rdi_sideband_node_reset = reset;
+  assign rdi_sideband_node_clk = clk;
+  assign rdi_sideband_node_rst_n = rst_n;
   assign rdi_sideband_node_io_inner_layer_to_node_valid = sideband_switch_io_outer_layer_to_node_below_valid; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 61:50]
   assign rdi_sideband_node_io_inner_layer_to_node_bits = sideband_switch_io_outer_layer_to_node_below_bits; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 61:50]
   assign rdi_sideband_node_io_inner_node_to_layer_ready = sideband_switch_io_outer_node_to_layer_below_ready; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 63:50]
@@ -2262,8 +2262,8 @@ module D2DSidebandModule(
   assign sideband_switch_io_outer_layer_to_node_below_ready = rdi_sideband_node_io_inner_layer_to_node_ready; // @[\\src\\main\\scala\\d2dadapter\\D2DSidebandModule.scala 61:50]
 endmodule
 module D2DMainbandModule(
-  input          clock,
-  input          reset,
+  input          clk,
+  input          rst_n,
   input          io_fdi_lp_irdy, // @[\\src\\main\\scala\\d2dadapter\\D2DMainbandModule.scala 47:16]
   input          io_fdi_lp_valid, // @[\\src\\main\\scala\\d2dadapter\\D2DMainbandModule.scala 47:16]
   input  [511:0] io_fdi_lp_data, // @[\\src\\main\\scala\\d2dadapter\\D2DMainbandModule.scala 47:16]
@@ -2319,7 +2319,7 @@ module D2DMainbandModule(
   assign io_snd_data_vld = io_fdi_pl_trdy & io_fdi_lp_valid & io_fdi_lp_irdy; // @[\\src\\main\\scala\\d2dadapter\\D2DMainbandModule.scala 75:57]
   assign io_rcv_data_vld = io_rdi_pl_valid; // @[\\src\\main\\scala\\d2dadapter\\D2DMainbandModule.scala 127:21]
   assign io_parity_rdy = io_parity_insert & snd_success_rdi; // @[\\src\\main\\scala\\d2dadapter\\D2DMainbandModule.scala 90:27]
-  always @(posedge clock) begin
+  always @(posedge clk) begin
     if (~data_buff_snt_fill_reg) begin // @[\\src\\main\\scala\\d2dadapter\\D2DMainbandModule.scala 96:34]
       data_buff_snt_reg <= io_fdi_lp_data;
     end else if (_T_1 & snd_success_rdi) begin // @[\\src\\main\\scala\\d2dadapter\\D2DMainbandModule.scala 105:53]
@@ -2327,7 +2327,7 @@ module D2DMainbandModule(
         data_buff_snt_reg <= io_fdi_lp_data; // @[\\src\\main\\scala\\d2dadapter\\D2DMainbandModule.scala 109:31]
       end
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\D2DMainbandModule.scala 50:41]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\D2DMainbandModule.scala 50:41]
       data_buff_snt_fill_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\D2DMainbandModule.scala 50:41]
     end else if (~data_buff_snt_fill_reg) begin // @[\\src\\main\\scala\\d2dadapter\\D2DMainbandModule.scala 96:34]
       data_buff_snt_fill_reg <= _T_9;
@@ -2337,12 +2337,12 @@ module D2DMainbandModule(
     if (io_rdi_pl_valid) begin // @[\\src\\main\\scala\\d2dadapter\\D2DMainbandModule.scala 130:26]
       data_buff_rcv_reg <= io_rdi_pl_data; // @[\\src\\main\\scala\\d2dadapter\\D2DMainbandModule.scala 131:27]
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\D2DMainbandModule.scala 52:41]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\D2DMainbandModule.scala 52:41]
       data_buff_rcv_fill_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\D2DMainbandModule.scala 52:41]
     end else begin
       data_buff_rcv_fill_reg <= _T_14;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\D2DMainbandModule.scala 55:28]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\D2DMainbandModule.scala 55:28]
       stall_reg <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\D2DMainbandModule.scala 55:28]
     end else begin
       stall_reg <= _GEN_1;
@@ -2403,8 +2403,8 @@ end // initial
 `endif // SYNTHESIS
 endmodule
 module ParityGenerator(
-  input        clock,
-  input        reset,
+  input        clk,
+  input        rst_n,
   input  [7:0] io_snd_data_0, // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 35:16]
   input  [7:0] io_snd_data_1, // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 35:16]
   input  [7:0] io_snd_data_2, // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 35:16]
@@ -2820,8 +2820,8 @@ module ParityGenerator(
   assign io_parity_data_63 = {{7'd0}, parity_data_snd_reg_63}; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 150:27]
   assign io_parity_insert = parity_dcount_snd_reg == 19'h10000; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 152:47]
   assign io_parity_check = parity_dcount_rcv_reg == 19'h10000; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 247:47]
-  always @(posedge clock) begin
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+  always @(posedge clk) begin
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_0 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_0 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -2830,7 +2830,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_0 <= _parity_data_snd_reg_0_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_1 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_1 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -2839,7 +2839,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_1 <= _parity_data_snd_reg_1_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_2 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_2 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -2848,7 +2848,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_2 <= _parity_data_snd_reg_2_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_3 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_3 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -2857,7 +2857,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_3 <= _parity_data_snd_reg_3_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_4 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_4 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -2866,7 +2866,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_4 <= _parity_data_snd_reg_4_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_5 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_5 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -2875,7 +2875,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_5 <= _parity_data_snd_reg_5_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_6 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_6 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -2884,7 +2884,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_6 <= _parity_data_snd_reg_6_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_7 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_7 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -2893,7 +2893,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_7 <= _parity_data_snd_reg_7_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_8 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_8 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -2902,7 +2902,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_8 <= _parity_data_snd_reg_8_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_9 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_9 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -2911,7 +2911,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_9 <= _parity_data_snd_reg_9_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_10 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_10 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -2920,7 +2920,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_10 <= _parity_data_snd_reg_10_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_11 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_11 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -2929,7 +2929,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_11 <= _parity_data_snd_reg_11_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_12 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_12 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -2938,7 +2938,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_12 <= _parity_data_snd_reg_12_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_13 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_13 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -2947,7 +2947,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_13 <= _parity_data_snd_reg_13_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_14 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_14 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -2956,7 +2956,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_14 <= _parity_data_snd_reg_14_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_15 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_15 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -2965,7 +2965,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_15 <= _parity_data_snd_reg_15_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_16 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_16 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -2974,7 +2974,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_16 <= _parity_data_snd_reg_16_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_17 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_17 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -2983,7 +2983,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_17 <= _parity_data_snd_reg_17_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_18 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_18 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -2992,7 +2992,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_18 <= _parity_data_snd_reg_18_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_19 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_19 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3001,7 +3001,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_19 <= _parity_data_snd_reg_19_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_20 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_20 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3010,7 +3010,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_20 <= _parity_data_snd_reg_20_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_21 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_21 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3019,7 +3019,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_21 <= _parity_data_snd_reg_21_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_22 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_22 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3028,7 +3028,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_22 <= _parity_data_snd_reg_22_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_23 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_23 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3037,7 +3037,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_23 <= _parity_data_snd_reg_23_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_24 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_24 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3046,7 +3046,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_24 <= _parity_data_snd_reg_24_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_25 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_25 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3055,7 +3055,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_25 <= _parity_data_snd_reg_25_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_26 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_26 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3064,7 +3064,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_26 <= _parity_data_snd_reg_26_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_27 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_27 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3073,7 +3073,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_27 <= _parity_data_snd_reg_27_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_28 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_28 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3082,7 +3082,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_28 <= _parity_data_snd_reg_28_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_29 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_29 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3091,7 +3091,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_29 <= _parity_data_snd_reg_29_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_30 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_30 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3100,7 +3100,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_30 <= _parity_data_snd_reg_30_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_31 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_31 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3109,7 +3109,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_31 <= _parity_data_snd_reg_31_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_32 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_32 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3118,7 +3118,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_32 <= _parity_data_snd_reg_32_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_33 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_33 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3127,7 +3127,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_33 <= _parity_data_snd_reg_33_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_34 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_34 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3136,7 +3136,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_34 <= _parity_data_snd_reg_34_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_35 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_35 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3145,7 +3145,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_35 <= _parity_data_snd_reg_35_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_36 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_36 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3154,7 +3154,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_36 <= _parity_data_snd_reg_36_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_37 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_37 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3163,7 +3163,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_37 <= _parity_data_snd_reg_37_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_38 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_38 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3172,7 +3172,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_38 <= _parity_data_snd_reg_38_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_39 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_39 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3181,7 +3181,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_39 <= _parity_data_snd_reg_39_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_40 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_40 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3190,7 +3190,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_40 <= _parity_data_snd_reg_40_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_41 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_41 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3199,7 +3199,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_41 <= _parity_data_snd_reg_41_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_42 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_42 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3208,7 +3208,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_42 <= _parity_data_snd_reg_42_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_43 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_43 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3217,7 +3217,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_43 <= _parity_data_snd_reg_43_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_44 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_44 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3226,7 +3226,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_44 <= _parity_data_snd_reg_44_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_45 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_45 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3235,7 +3235,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_45 <= _parity_data_snd_reg_45_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_46 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_46 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3244,7 +3244,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_46 <= _parity_data_snd_reg_46_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_47 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_47 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3253,7 +3253,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_47 <= _parity_data_snd_reg_47_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_48 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_48 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3262,7 +3262,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_48 <= _parity_data_snd_reg_48_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_49 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_49 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3271,7 +3271,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_49 <= _parity_data_snd_reg_49_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_50 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_50 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3280,7 +3280,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_50 <= _parity_data_snd_reg_50_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_51 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_51 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3289,7 +3289,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_51 <= _parity_data_snd_reg_51_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_52 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_52 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3298,7 +3298,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_52 <= _parity_data_snd_reg_52_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_53 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_53 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3307,7 +3307,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_53 <= _parity_data_snd_reg_53_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_54 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_54 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3316,7 +3316,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_54 <= _parity_data_snd_reg_54_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_55 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_55 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3325,7 +3325,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_55 <= _parity_data_snd_reg_55_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_56 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_56 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3334,7 +3334,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_56 <= _parity_data_snd_reg_56_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_57 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_57 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3343,7 +3343,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_57 <= _parity_data_snd_reg_57_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_58 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_58 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3352,7 +3352,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_58 <= _parity_data_snd_reg_58_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_59 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_59 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3361,7 +3361,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_59 <= _parity_data_snd_reg_59_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_60 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_60 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3370,7 +3370,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_60 <= _parity_data_snd_reg_60_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_61 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_61 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3379,7 +3379,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_61 <= _parity_data_snd_reg_61_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_62 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_62 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3388,7 +3388,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_62 <= _parity_data_snd_reg_62_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
       parity_data_snd_reg_63 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 37:38]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_data_snd_reg_63 <= 1'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 72:36]
@@ -3397,7 +3397,7 @@ module ParityGenerator(
     end else if (io_snd_data_vld & io_parity_tx_enable & parity_dcount_snd_reg != 19'h10000) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 82:94]
       parity_data_snd_reg_63 <= _parity_data_snd_reg_63_T_1;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 40:40]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 40:40]
       parity_dcount_snd_reg <= 19'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 40:40]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_dcount_snd_reg <= 19'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 74:31]
@@ -3408,7 +3408,7 @@ module ParityGenerator(
     end else begin
       parity_dcount_snd_reg <= _GEN_1798;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 41:40]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 41:40]
       parity_pcount_snd_reg <= 9'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 41:40]
     end else if (io_rdi_state != 4'h1) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 70:43]
       parity_pcount_snd_reg <= 9'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 75:31]
@@ -3419,7 +3419,7 @@ module ParityGenerator(
     end else begin
       parity_pcount_snd_reg <= _GEN_1799;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 42:40]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 42:40]
       parity_dcount_rcv_reg <= 19'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 42:40]
     end else if (_T_3) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 157:43]
       parity_dcount_rcv_reg <= 19'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 161:31]
@@ -3430,7 +3430,7 @@ module ParityGenerator(
     end else begin
       parity_dcount_rcv_reg <= _GEN_4366;
     end
-    if (reset) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 43:40]
+    if (rst_n) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 43:40]
       parity_pcount_rcv_reg <= 9'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 43:40]
     end else if (_T_3) begin // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 157:43]
       parity_pcount_rcv_reg <= 9'h0; // @[\\src\\main\\scala\\d2dadapter\\ParityGenerator.scala 162:31]
@@ -3623,8 +3623,8 @@ end // initial
 `endif // SYNTHESIS
 endmodule
 module tt_um_hoorifyyyy_D2DAdapter(
-  input          clock,
-  input          reset,
+  input          clk,
+  input          rst_n,
   output         io_fdi_lpData_ready, // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 30:16]
   input          io_fdi_lpData_valid, // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 30:16]
   input          io_fdi_lpData_irdy, // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 30:16]
@@ -3707,8 +3707,8 @@ module tt_um_hoorifyyyy_D2DAdapter(
   output [127:0] io_rdi_lpConfig_bits, // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 30:16]
   input          io_rdi_lpConfigCredit // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 30:16]
 );
-  wire  link_manager_clock; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 35:30]
-  wire  link_manager_reset; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 35:30]
+  wire  link_manager_clk; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 35:30]
+  wire  link_manager_rst_n; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 35:30]
   wire [3:0] link_manager_io_fdi_lp_state_req; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 35:30]
   wire  link_manager_io_fdi_lp_linkerror; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 35:30]
   wire  link_manager_io_fdi_lp_rx_active_sts; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 35:30]
@@ -3726,20 +3726,20 @@ module tt_um_hoorifyyyy_D2DAdapter(
   wire  link_manager_io_linkmgmt_stalldone; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 35:30]
   wire  link_manager_io_parity_rx_enable; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 35:30]
   wire  link_manager_io_parity_tx_enable; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 35:30]
-  wire  fdi_stall_handler_clock; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 36:35]
-  wire  fdi_stall_handler_reset; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 36:35]
+  wire  fdi_stall_handler_clk; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 36:35]
+  wire  fdi_stall_handler_rst_n; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 36:35]
   wire  fdi_stall_handler_io_linkmgmt_stallreq; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 36:35]
   wire  fdi_stall_handler_io_linkmgmt_stalldone; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 36:35]
   wire  fdi_stall_handler_io_fdi_pl_stallreq; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 36:35]
   wire  fdi_stall_handler_io_fdi_lp_stallack; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 36:35]
-  wire  rdi_stall_handler_clock; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 37:35]
-  wire  rdi_stall_handler_reset; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 37:35]
+  wire  rdi_stall_handler_clk; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 37:35]
+  wire  rdi_stall_handler_rst_n; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 37:35]
   wire  rdi_stall_handler_io_mainband_stallreq; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 37:35]
   wire  rdi_stall_handler_io_mainband_stalldone; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 37:35]
   wire  rdi_stall_handler_io_rdi_pl_stallreq; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 37:35]
   wire  rdi_stall_handler_io_rdi_lp_stallack; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 37:35]
-  wire  d2d_sideband_clock; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 39:30]
-  wire  d2d_sideband_reset; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 39:30]
+  wire  d2d_sideband_clk; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 39:30]
+  wire  d2d_sideband_rst_n; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 39:30]
   wire [127:0] d2d_sideband_io_fdi_pl_cfg; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 39:30]
   wire  d2d_sideband_io_fdi_pl_cfg_vld; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 39:30]
   wire  d2d_sideband_io_fdi_pl_cfg_crd; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 39:30]
@@ -3755,8 +3755,8 @@ module tt_um_hoorifyyyy_D2DAdapter(
   wire [5:0] d2d_sideband_io_sideband_rcv; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 39:30]
   wire [5:0] d2d_sideband_io_sideband_snt; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 39:30]
   wire  d2d_sideband_io_sideband_rdy; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 39:30]
-  wire  d2d_mainband_clock; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 40:30]
-  wire  d2d_mainband_reset; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 40:30]
+  wire  d2d_mainband_clk; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 40:30]
+  wire  d2d_mainband_rst_n; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 40:30]
   wire  d2d_mainband_io_fdi_lp_irdy; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 40:30]
   wire  d2d_mainband_io_fdi_lp_valid; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 40:30]
   wire [511:0] d2d_mainband_io_fdi_lp_data; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 40:30]
@@ -3779,8 +3779,8 @@ module tt_um_hoorifyyyy_D2DAdapter(
   wire [511:0] d2d_mainband_io_parity_data; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 40:30]
   wire  d2d_mainband_io_parity_rdy; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 40:30]
   wire  d2d_mainband_io_parity_check; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 40:30]
-  wire  parity_generator_clock; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 42:34]
-  wire  parity_generator_reset; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 42:34]
+  wire  parity_generator_clk; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 42:34]
+  wire  parity_generator_rst_n; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 42:34]
   wire [7:0] parity_generator_io_snd_data_0; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 42:34]
   wire [7:0] parity_generator_io_snd_data_1; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 42:34]
   wire [7:0] parity_generator_io_snd_data_2; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 42:34]
@@ -3951,8 +3951,8 @@ module tt_um_hoorifyyyy_D2DAdapter(
     parity_generator_io_parity_data_58,parity_generator_io_parity_data_57,parity_generator_io_parity_data_56,
     d2d_mainband_io_parity_data_hi_hi_lo,d2d_mainband_io_parity_data_hi_lo}; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 158:76]
   LinkManagementController link_manager ( // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 35:30]
-    .clock(link_manager_clock),
-    .reset(link_manager_reset),
+    .clk(link_manager_clk),
+    .rst_n(link_manager_rst_n),
     .io_fdi_lp_state_req(link_manager_io_fdi_lp_state_req),
     .io_fdi_lp_linkerror(link_manager_io_fdi_lp_linkerror),
     .io_fdi_lp_rx_active_sts(link_manager_io_fdi_lp_rx_active_sts),
@@ -3972,24 +3972,24 @@ module tt_um_hoorifyyyy_D2DAdapter(
     .io_parity_tx_enable(link_manager_io_parity_tx_enable)
   );
   FDIStallHandler fdi_stall_handler ( // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 36:35]
-    .clock(fdi_stall_handler_clock),
-    .reset(fdi_stall_handler_reset),
+    .clk(fdi_stall_handler_clk),
+    .rst_n(fdi_stall_handler_rst_n),
     .io_linkmgmt_stallreq(fdi_stall_handler_io_linkmgmt_stallreq),
     .io_linkmgmt_stalldone(fdi_stall_handler_io_linkmgmt_stalldone),
     .io_fdi_pl_stallreq(fdi_stall_handler_io_fdi_pl_stallreq),
     .io_fdi_lp_stallack(fdi_stall_handler_io_fdi_lp_stallack)
   );
   RDIStallHandler rdi_stall_handler ( // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 37:35]
-    .clock(rdi_stall_handler_clock),
-    .reset(rdi_stall_handler_reset),
+    .clk(rdi_stall_handler_clk),
+    .rst_n(rdi_stall_handler_rst_n),
     .io_mainband_stallreq(rdi_stall_handler_io_mainband_stallreq),
     .io_mainband_stalldone(rdi_stall_handler_io_mainband_stalldone),
     .io_rdi_pl_stallreq(rdi_stall_handler_io_rdi_pl_stallreq),
     .io_rdi_lp_stallack(rdi_stall_handler_io_rdi_lp_stallack)
   );
   D2DSidebandModule d2d_sideband ( // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 39:30]
-    .clock(d2d_sideband_clock),
-    .reset(d2d_sideband_reset),
+    .clk(d2d_sideband_clk),
+    .rst_n(d2d_sideband_rst_n),
     .io_fdi_pl_cfg(d2d_sideband_io_fdi_pl_cfg),
     .io_fdi_pl_cfg_vld(d2d_sideband_io_fdi_pl_cfg_vld),
     .io_fdi_pl_cfg_crd(d2d_sideband_io_fdi_pl_cfg_crd),
@@ -4007,8 +4007,8 @@ module tt_um_hoorifyyyy_D2DAdapter(
     .io_sideband_rdy(d2d_sideband_io_sideband_rdy)
   );
   D2DMainbandModule d2d_mainband ( // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 40:30]
-    .clock(d2d_mainband_clock),
-    .reset(d2d_mainband_reset),
+    .clk(d2d_mainband_clk),
+    .rst_n(d2d_mainband_rst_n),
     .io_fdi_lp_irdy(d2d_mainband_io_fdi_lp_irdy),
     .io_fdi_lp_valid(d2d_mainband_io_fdi_lp_valid),
     .io_fdi_lp_data(d2d_mainband_io_fdi_lp_data),
@@ -4033,8 +4033,8 @@ module tt_um_hoorifyyyy_D2DAdapter(
     .io_parity_check(d2d_mainband_io_parity_check)
   );
   ParityGenerator parity_generator ( // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 42:34]
-    .clock(parity_generator_clock),
-    .reset(parity_generator_reset),
+    .clk(parity_generator_clk),
+    .rst_n(parity_generator_rst_n),
     .io_snd_data_0(parity_generator_io_snd_data_0),
     .io_snd_data_1(parity_generator_io_snd_data_1),
     .io_snd_data_2(parity_generator_io_snd_data_2),
@@ -4215,8 +4215,8 @@ module tt_um_hoorifyyyy_D2DAdapter(
   assign io_rdi_plConfigCredit = d2d_sideband_io_rdi_pl_cfg_crd; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 115:27]
   assign io_rdi_lpConfig_valid = d2d_sideband_io_rdi_lp_cfg_vld; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 117:27]
   assign io_rdi_lpConfig_bits = d2d_sideband_io_rdi_lp_cfg; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 116:26]
-  assign link_manager_clock = clock;
-  assign link_manager_reset = reset;
+  assign link_manager_clk = clk;
+  assign link_manager_rst_n = rst_n;
   assign link_manager_io_fdi_lp_state_req = io_fdi_lpStateReq; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 75:38]
   assign link_manager_io_fdi_lp_linkerror = io_fdi_lpLinkError; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 76:38]
   assign link_manager_io_fdi_lp_rx_active_sts = io_fdi_lpRxActiveStatus; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 77:42]
@@ -4225,16 +4225,16 @@ module tt_um_hoorifyyyy_D2DAdapter(
   assign link_manager_io_sb_rcv = d2d_sideband_io_sideband_rcv; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 89:28]
   assign link_manager_io_sb_rdy = d2d_sideband_io_sideband_rdy; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 90:28]
   assign link_manager_io_linkmgmt_stalldone = fdi_stall_handler_io_linkmgmt_stalldone; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 93:40]
-  assign fdi_stall_handler_clock = clock;
-  assign fdi_stall_handler_reset = reset;
+  assign fdi_stall_handler_clk = clk;
+  assign fdi_stall_handler_rst_n = rst_n;
   assign fdi_stall_handler_io_linkmgmt_stallreq = link_manager_io_linkmgmt_stallreq; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 94:44]
   assign fdi_stall_handler_io_fdi_lp_stallack = io_fdi_lpStallAck; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 122:42]
-  assign rdi_stall_handler_clock = clock;
-  assign rdi_stall_handler_reset = reset;
+  assign rdi_stall_handler_clk = clk;
+  assign rdi_stall_handler_rst_n = rst_n;
   assign rdi_stall_handler_io_mainband_stalldone = d2d_mainband_io_mainband_stalldone; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 149:45]
   assign rdi_stall_handler_io_rdi_pl_stallreq = io_rdi_plStallReq; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 124:42]
-  assign d2d_sideband_clock = clock;
-  assign d2d_sideband_reset = reset;
+  assign d2d_sideband_clk = clk;
+  assign d2d_sideband_rst_n = rst_n;
   assign d2d_sideband_io_fdi_pl_cfg_crd = io_fdi_plConfigCredit; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 108:36]
   assign d2d_sideband_io_fdi_lp_cfg = io_fdi_lpConfig_bits; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 109:32]
   assign d2d_sideband_io_fdi_lp_cfg_vld = io_fdi_lpConfig_valid; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 110:36]
@@ -4242,8 +4242,8 @@ module tt_um_hoorifyyyy_D2DAdapter(
   assign d2d_sideband_io_rdi_pl_cfg_vld = io_rdi_plConfig_valid; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 114:36]
   assign d2d_sideband_io_rdi_lp_cfg_crd = io_rdi_lpConfigCredit; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 118:36]
   assign d2d_sideband_io_sideband_snt = link_manager_io_sb_snd; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 88:34]
-  assign d2d_mainband_clock = clock;
-  assign d2d_mainband_reset = reset;
+  assign d2d_mainband_clk = clk;
+  assign d2d_mainband_rst_n = rst_n;
   assign d2d_mainband_io_fdi_lp_irdy = io_fdi_lpData_irdy; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 129:33]
   assign d2d_mainband_io_fdi_lp_valid = io_fdi_lpData_valid; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 130:34]
   assign d2d_mainband_io_fdi_lp_data = io_fdi_lpData_bits; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 131:33]
@@ -4255,8 +4255,8 @@ module tt_um_hoorifyyyy_D2DAdapter(
   assign d2d_mainband_io_parity_insert = parity_generator_io_parity_insert; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 157:35]
   assign d2d_mainband_io_parity_data = {d2d_mainband_io_parity_data_hi,d2d_mainband_io_parity_data_lo}; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 158:76]
   assign d2d_mainband_io_parity_check = parity_generator_io_parity_check; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 160:34]
-  assign parity_generator_clock = clock;
-  assign parity_generator_reset = reset;
+  assign parity_generator_clk = clk;
+  assign parity_generator_rst_n = rst_n;
   assign parity_generator_io_snd_data_0 = _WIRE_1[7:0]; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 153:70]
   assign parity_generator_io_snd_data_1 = _WIRE_1[15:8]; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 153:70]
   assign parity_generator_io_snd_data_2 = _WIRE_1[23:16]; // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 153:70]
