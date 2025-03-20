@@ -3626,6 +3626,11 @@ module tt_um_hoorifyyyy_D2DAdapter(
   input          clk,
   input          rst_n,
   input          ena,
+  input          wire [7:0] ui_in,    // Dedicated inputs
+  output         wire [7:0] uo_out,   // Dedicated outputs
+  input          wire [7:0] uio_in,   // IOs: Input path
+  output         wire [7:0] uio_out,  // IOs: Output path
+  output         wire [7:0] uio_oe,  
   output         io_fdi_lpData_ready, // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 30:16]
   input          io_fdi_lpData_valid, // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 30:16]
   input          io_fdi_lpData_irdy, // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 30:16]
