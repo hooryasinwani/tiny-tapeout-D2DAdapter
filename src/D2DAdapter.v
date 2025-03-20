@@ -3625,6 +3625,7 @@ endmodule
 module tt_um_hoorifyyyy_D2DAdapter(
   input          clk,
   input          rst_n,
+  input          ena,
   output         io_fdi_lpData_ready, // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 30:16]
   input          io_fdi_lpData_valid, // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 30:16]
   input          io_fdi_lpData_irdy, // @[\\src\\main\\scala\\d2dadapter\\D2DAdapter.scala 30:16]
